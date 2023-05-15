@@ -4,3 +4,9 @@ frontend/* linguist-documentation=false
 frontend/* linguist-vendored
 Machine_Learning/* linguist-documentation=false
 Machine_Learning/* linguist-vendored
+Backend/*/** linguist-documentation=false
+Backend/*/** linguist-vendored
+frontend/*/** linguist-documentation=false
+frontend/*/** linguist-vendored
+Machine_Learning/*/** linguist-documentation=false
+Machine_Learning/*/** linguist-vendored
