@@ -4,3 +4,7 @@ frontend/* linguist-documentation=false
 frontend/* linguist-vendored
 Machine_Learning/* linguist-documentation=false
 Machine_Learning/* linguist-vendored
+Backend/bookshelf-api/* linguist-documentation=false
+Backend/bookshelf-api/* linguist-vendored
+Backend/notes-app-back-end/* linguist-documentation=false
+Backend/notes-app-back-end/* linguist-vendored
