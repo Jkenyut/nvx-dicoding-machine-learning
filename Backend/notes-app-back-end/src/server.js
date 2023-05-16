@@ -3,6 +3,7 @@ const Hapi = require("@hapi/hapi");
 
 const notes = require("./api/notes");
 const NotesService = require("./services/inMemory/NotesService");
+const NotesValidator = require("./validator/notes");
 
 console.log(process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0");
 const init = async () => {
@@ -22,6 +23,7 @@ const init = async () => {
     plugin: notes,
     options: {
       service: notesService,
+      validator: NotesValidator,
     },
   });
   await server.start();
