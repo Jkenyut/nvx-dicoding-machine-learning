@@ -27,7 +27,7 @@ const init = async () => {
   server.ext("onPreResponse", (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request;
-    console.log(response);
+
     if (response instanceof Error) {
       // penanganan client error secara internal.
       if (response instanceof ClientError) {
@@ -56,7 +56,6 @@ const init = async () => {
 
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
-  console.log("ok");
 };
 
 init();

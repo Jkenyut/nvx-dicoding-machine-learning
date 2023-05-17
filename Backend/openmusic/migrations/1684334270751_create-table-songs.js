@@ -31,14 +31,14 @@ exports.up = (pgm) => {
       type: "INTEGER",
       notNull: false,
     },
-    albumId: {
+    albumid: {
       type: "VARCHAR(50)",
       notNull: false,
       references: '"album"',
       onDelete: "cascade",
     },
   });
-  pgm.createIndex("songs", "albumId");
+  pgm.createIndex("songs", "albumid");
 };
 
 exports.down = (pgm) => {

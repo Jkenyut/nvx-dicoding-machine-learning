@@ -76,16 +76,16 @@ class SongHandler {
     return response;
   }
 
-  // async deleteAlbumByIdHandler(request, h) {
-  //   const { id } = request.params;
-  //   await this._service.deleteAlbumById(id);
-  //   const response = h.response({
-  //     status: "success",
-  //     message: "Album telah diubah",
-  //   });
-  //   response.code(200);
-  //   return response;
-  // }
+  async deleteSongByIdHandler(request, h) {
+    const { id } = request.params;
+    await this._service.deleteAlbumById(id);
+    const response = h.response({
+      status: "success",
+      message: "Song telah diubah",
+    });
+    response.code(200);
+    return response;
+  }
 }
 
 module.exports = SongHandler;

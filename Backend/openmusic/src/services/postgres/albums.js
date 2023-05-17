@@ -4,9 +4,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { Pool } = require("pg");
 const { nanoid } = require("nanoid");
-// const { mapDBToModel } = require("../../utils");
+
 const InvariantError = require("../../exceptions/InvariantError");
 const NotFoundError = require("../../exceptions/NotFoundError");
+const { formatAlbumWithSongs } = require("../../utils");
 
 class AlbumsService {
   constructor() {
@@ -28,15 +29,21 @@ class AlbumsService {
   }
 
   async getAlbumById(id) {
-    const query = {
+    const queryAlbum = {
       text: "SELECT * FROM album WHERE id = $1",
       values: [id],
     };
-    const result = await this._pool.query(query);
-    if (!result.rows.length) {
+    const querySong = {
+      text: "SELECT * FROM songs WHERE albumid = $1",
+      values: [id],
+    };
+    const resultAlbum = await this._pool.query(queryAlbum);
+    const resultSong = await this._pool.query(querySong);
+    if (!resultAlbum.rows.length) {
       throw new NotFoundError("Album tidak ditemukan");
     }
-    return result.rows[0];
+
+    return formatAlbumWithSongs(resultAlbum, resultSong);
   }
 
   async editAlbumById(id, { name, year }) {
