@@ -28,13 +28,14 @@ class SongsService {
     return result.rows[0].id;
   }
 
-  async getSong() {
+  async getSong({ title = "", performer = "" }) {
     const query = {
-      text: "SELECT id,title,performer FROM songs",
+      text: "SELECT id,title,performer FROM songs WHERE  LOWER(title) LIKE $1 AND LOWER(performer) LIKE $2",
+      values: [`%${title}%`, `%${performer}%`],
     };
     const result = await this._pool.query(query);
     if (!result.rows.length) {
-      throw new NotFoundError("Album tidak ditemukan");
+      throw new NotFoundError("Songs tidak ditemukan");
     }
     return result.rows;
   }

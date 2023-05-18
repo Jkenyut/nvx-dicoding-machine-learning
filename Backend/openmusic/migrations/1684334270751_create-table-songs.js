@@ -36,9 +36,10 @@ exports.up = (pgm) => {
       notNull: false,
       references: '"album"',
       onDelete: "cascade",
+      onUpdate: "cascade",
     },
   });
-  pgm.createIndex("songs", "albumid");
+  pgm.createIndex("songs", ["albumid", "title", "performer"]);
 };
 
 exports.down = (pgm) => {
