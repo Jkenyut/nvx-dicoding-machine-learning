@@ -10,6 +10,10 @@ const NotFoundError = require("../../exceptions/NotFoundError");
 class NotesService {
   constructor() {
     this._pool = new Pool();
+
+    this.postAuthenticationHandler = this.postAuthenticationHandler.bind(this);
+    this.putAuthenticationHandler = this.putAuthenticationHandler.bind(this);
+    this.deleteAuthenticationHandler = this.deleteAuthenticationHandler.bind(this);
   }
 
   async addNote({ title, body, tags }) {
