@@ -4,3 +4,4 @@ notes-api-web-server.pem
 .env
 .prod.env
 Backend/openmusic/node_modules
+Backend/openmusic/openmusic.zip
