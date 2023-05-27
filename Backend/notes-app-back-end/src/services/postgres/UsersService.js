@@ -13,6 +13,10 @@ class UsersService {
     this._pool = new Pool();
   }
 
+
+  async getUsersByUsername(username) {
+    
+  }
   async addUser({ username, password, fullname }) {
     // TODO: Verifikasi username, pastikan belum terdaftar.
     // TODO: Bila verifikasi lolos, maka masukkan user baru ke database.
