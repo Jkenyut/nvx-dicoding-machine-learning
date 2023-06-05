@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
+const autoBind = require("auto-bind");
 const ClientError = require("../../exceptions/ClientError");
 
 class AuthenticationsHandler {
@@ -8,13 +9,13 @@ class AuthenticationsHandler {
     this._usersService = usersService;
     this._tokenManager = tokenManager;
     this._validator = validator;
-    this.postAuthenticationHandler = this.postAuthenticationHandler.bind(this);
-    this.putAuthenticationHandler = this.putAuthenticationHandler.bind(this);
-    this.deleteAuthenticationHandler = this.deleteAuthenticationHandler.bind(this);
+
+    autoBind(this); // mem-bind nilai this untuk seluruh method sekaligus
   }
 
   async postAuthenticationHandler(request, h) {
     try {
+      console.log("postAuthenticationHandler");
       this._validator.validatePostAuthenticationPayload(request.payload);
 
       const { username, password } = request.payload;
@@ -50,7 +51,7 @@ class AuthenticationsHandler {
         message: "Maaf, terjadi kegagalan pada server kami.",
       });
       response.code(500);
-      console.error(error);
+
       return response;
     }
   }

@@ -5,7 +5,7 @@ const Jwt = require("@hapi/jwt");
 
 const ClientError = require("./exceptions/ClientError");
 
-const MusicValidator = require("./validation/index");
+const MusicValidator = require("./validation/songs/index");
 const routeAll = require("./api");
 
 const init = async () => {
@@ -50,7 +50,7 @@ const init = async () => {
   server.ext("onPreResponse", (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request;
-    // console.log(response);
+    console.log(response);
     if (response instanceof Error) {
       // penanganan client error secara internal.
       if (response instanceof ClientError) {
@@ -65,7 +65,7 @@ const init = async () => {
       if (!response.isServer) {
         return h.continue;
       }
-      console.log(response.message);
+
       // penanganan server error sesuai kebutuhan
       const newResponse = h.response({
         status: "error",

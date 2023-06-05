@@ -3,21 +3,6 @@
 /* eslint-disable quotes */
 const Joi = require("joi");
 
-const albumSchema = Joi.object({
-  name: Joi.string().required().max(50).trim().messages({
-    "string.base": "name must be a string",
-    "string.max": "name must be less than 50",
-    "any.required": "name is required",
-    "string.empty": "name is required",
-  }),
-  year: Joi.number().integer().required().messages({
-    "integer.base": "name must be a integer",
-    "number.base": "name must be a integer",
-    "any.required": "name is required",
-    "integer.empty": "name is required",
-  }),
-});
-
 const songSchema = Joi.object({
   title: Joi.string().required().max(50).trim().messages({
     "string.base": "name must be a string",
@@ -51,25 +36,4 @@ const songSchema = Joi.object({
   }),
 });
 
-const userSchema = Joi.object({
-  username: Joi.string().required().max(50).trim().messages({
-    "string.base": "name must be a string",
-    "string.max": "name must be less than 50",
-    "any.required": "name is required",
-    "string.empty": "name is required",
-  }),
-  password: Joi.string().required().max(50).trim().messages({
-    "string.base": "name must be a string",
-    "string.max": "name must be less than 50",
-    "any.required": "name is required",
-    "string.empty": "name is required",
-  }),
-  fullname: Joi.string().required().max(50).trim().messages({
-    "string.base": "name must be a string",
-    "string.max": "name must be less than 50",
-    "any.required": "name is required",
-    "string.empty": "name is required",
-  }),
-});
-
-module.exports = { albumSchema, songSchema, userSchema };
+module.exports = { songSchema };
