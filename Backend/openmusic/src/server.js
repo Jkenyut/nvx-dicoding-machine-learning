@@ -5,8 +5,8 @@ const Jwt = require("@hapi/jwt");
 
 const ClientError = require("./exceptions/ClientError");
 
-const MusicValidator = require("./validation/songs/index");
 const routeAll = require("./api");
+const InvariantError = require("./exceptions/InvariantError");
 
 const init = async () => {
   const server = Hapi.server({
@@ -42,9 +42,6 @@ const init = async () => {
   });
   await server.register({
     plugin: routeAll,
-    options: {
-      validator: MusicValidator,
-    },
   });
 
   server.ext("onPreResponse", (request, h) => {
@@ -61,6 +58,7 @@ const init = async () => {
         newResponse.code(response.statusCode);
         return newResponse;
       }
+
       // mempertahankan penanganan client error oleh hapi secara native, seperti 404, etc.
       if (!response.isServer) {
         return h.continue;
