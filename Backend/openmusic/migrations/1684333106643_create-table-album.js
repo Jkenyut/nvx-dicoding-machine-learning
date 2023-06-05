@@ -6,13 +6,13 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
   pgm.createTable("album", {
     id: {
-      type: "VARCHAR(50)",
+      type: "VARCHAR(255)",
       primaryKey: true,
       notNull: true,
       unique: true,
     },
     name: {
-      type: "VARCHAR(50)",
+      type: "VARCHAR(255)",
       notNull: true,
     },
     year: {

@@ -65,6 +65,7 @@ const init = async () => {
       if (!response.isServer) {
         return h.continue;
       }
+      console.log(response.message);
       // penanganan server error sesuai kebutuhan
       const newResponse = h.response({
         status: "error",
