@@ -7,10 +7,31 @@ const bcrypt = require("bcrypt");
 // const { mapDBToModel } = require("../../utils");
 const InvariantError = require("../../exceptions/InvariantError");
 const NotFoundError = require("../../exceptions/NotFoundError");
+const AuthenticationError = require("../../exceptions/AuthenticationError");
 
 class UserService {
   constructor() {
     this._pool = new Pool();
+  }
+
+  async verifyUserCredential(username, password) {
+    const query = {
+      text: "SELECT id, password FROM users WHERE username=$1",
+      values: [username],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rows.length <= 0) {
+      throw new AuthenticationError("Kredensial yang Anda berikan salah");
+    }
+
+    const comparePassword = await bcrypt.compare(password, result.rows[0].password);
+    if (!comparePassword) {
+      throw new AuthenticationError("Kredensial yang Anda berikan salah");
+    }
+
+    return result.rows[0].id;
   }
 
   async getUsersByUsername(username) {

@@ -14,6 +14,7 @@ const AlbumsService = require("../services/postgres/albums");
 const SongsService = require("../services/postgres/songs");
 const UserService = require("../services/postgres/user");
 const AuthService = require("../services/postgres/auth");
+const tokenService = require("../tokenize/TokenManager");
 
 const routesAlbum = require("./albums/routes");
 const routesSong = require("./song/routes");
@@ -32,7 +33,12 @@ module.exports = {
     const albumsHandler = new AlbumHandler(albumsService, albumsValidator);
     const songsHandler = new SongHandler(songsService, songsValidator);
     const usersHandler = new UsersHandler(usersService, usersValidator);
-    const authHandler = new AuthenticationsHandler(authService, authValidator);
+    const authHandler = new AuthenticationsHandler(
+      authService,
+      usersService,
+      tokenService,
+      authValidator,
+    );
 
     server.route(routesAlbum(albumsHandler));
     server.route(routesSong(songsHandler));

@@ -6,7 +6,7 @@ const Jwt = require("@hapi/jwt");
 const ClientError = require("./exceptions/ClientError");
 
 const routeAll = require("./api");
-const InvariantError = require("./exceptions/InvariantError");
+// const InvariantError = require("./exceptions/InvariantError");
 
 const init = async () => {
   const server = Hapi.server({
@@ -47,10 +47,11 @@ const init = async () => {
   server.ext("onPreResponse", (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request;
-    console.log(response);
+
     if (response instanceof Error) {
       // penanganan client error secara internal.
       if (response instanceof ClientError) {
+        console.log(response.message);
         const newResponse = h.response({
           status: "fail",
           message: response.message,
@@ -58,12 +59,12 @@ const init = async () => {
         newResponse.code(response.statusCode);
         return newResponse;
       }
+      console.log(response.message);
 
       // mempertahankan penanganan client error oleh hapi secara native, seperti 404, etc.
       if (!response.isServer) {
         return h.continue;
       }
-
       // penanganan server error sesuai kebutuhan
       const newResponse = h.response({
         status: "error",

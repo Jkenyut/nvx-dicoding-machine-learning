@@ -15,15 +15,17 @@ class AuthenticationsHandler {
 
   async postAuthenticationHandler(request, h) {
     try {
-      console.log("postAuthenticationHandler");
       this._validator.validatePostAuthenticationPayload(request.payload);
-
+      console.log("postAuthenticationHandler1");
       const { username, password } = request.payload;
 
       const id = await this._usersService.verifyUserCredential(username, password);
-
-      const accessToken = this._tokenManager.generateAccessToken({ id });
-      const refreshToken = this._tokenManager.generateRefreshToken({ id });
+      console.log(id);
+      const accessToken = this._tokenManager.generateAccessToken(id);
+      console.log(accessToken);
+      const refreshToken = this._tokenManager.generateRefreshToken(id);
+      console.log("\n");
+      console.log(refreshToken);
       await this._authenticationsService.addRefreshToken(refreshToken);
       const response = h.response({
         status: "success",
