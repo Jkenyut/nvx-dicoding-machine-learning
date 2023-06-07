@@ -44,7 +44,7 @@ module.exports = {
       tokenService,
       authValidator,
     );
-    const playlistHandler = new PlaylistHandler(playlistsService, playlistsValidator);
+    const playlistHandler = new PlaylistHandler(playlistsService, songsService, playlistsValidator);
 
     server.route(routesAlbum(albumsHandler));
     server.route(routesSong(songsHandler));

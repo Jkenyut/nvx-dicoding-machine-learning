@@ -6,8 +6,9 @@
 const autoBind = require("auto-bind");
 
 class PlaylistHandler {
-  constructor(service, validator) {
-    this._service = service;
+  constructor(servicePlaylist, serviceSong, validator) {
+    this._servicePlaylist = servicePlaylist;
+    this._serviceSong = serviceSong;
     this._validator = validator;
 
     autoBind(this); // mem-bind nilai this untuk seluruh method sekaligus
@@ -18,7 +19,7 @@ class PlaylistHandler {
     const { name } = this._validator.validatePlaylistPayload(request.payload);
     const { id: credentialId } = request.auth.credentials;
     console.log(credentialId);
-    const playlistId = await this._service.addPlaylist(name, credentialId);
+    const playlistId = await this._servicePlaylist.addPlaylist(name, credentialId);
     const response = h.response({
       status: "success",
       data: {
@@ -32,7 +33,7 @@ class PlaylistHandler {
   async getPlaylistHandler(request, h) {
     const { id: credentialId } = request.auth.credentials;
     console.log(credentialId);
-    const playlists = await this._service.getPlaylist(credentialId);
+    const playlists = await this._servicePlaylist.getPlaylist(credentialId);
     const response = h.response({
       status: "success",
       data: {
@@ -45,21 +46,23 @@ class PlaylistHandler {
 
   async postPlaylistSongByIdHandler(request, h) {
     const { id } = request.params;
-    const { name } = this._validator.validateplaylistSongPayload(request.payload);
-    const playlistSongId = await this._service.addPlaylistSong(id, name);
+    const { id: credentialId } = request.auth.credentials;
+    const { songId } = this._validator.validateplaylistSongPayload(request.payload);
+    await this._serviceSong.getSongById(songId);
+    // await this._servicePlaylist.getPlaylistById(id, credentialId);
+    const playlistSongId = await this._servicePlaylist.addPlaylistSong(id, songId);
     const response = h.response({
       status: "success",
-      data: {
-        playlistSongId,
-      },
+
+      message: playlistSongId,
     });
-    response.code(200);
+    response.code(201);
     return response;
   }
 
   async getPlaylistByIdHandler(request, h) {
     const { id } = request.params;
-    const PlaylistId = await this._service.getPlaylistById(id);
+    const PlaylistId = await this._servicePlaylist.getPlaylistById(id);
     const response = h.response({
       status: "success",
       data: {
@@ -73,7 +76,7 @@ class PlaylistHandler {
   async putPlaylistByIdHandler(request, h) {
     const { id } = request.params;
     const { name, year } = this._validator.validatePlaylistPayload(request.payload);
-    await this._service.editPlaylistById(id, { name, year });
+    await this._servicePlaylist.editPlaylistById(id, { name, year });
     const response = h.response({
       status: "success",
       message: "Playlist telah diubah",
@@ -84,7 +87,7 @@ class PlaylistHandler {
 
   async deletePlaylistByIdHandler(request, h) {
     const { id } = request.params;
-    await this._service.deletePlaylistById(id);
+    await this._servicePlaylist.deletePlaylistById(id);
     const response = h.response({
       status: "success",
       message: "Playlist telah diubah",
