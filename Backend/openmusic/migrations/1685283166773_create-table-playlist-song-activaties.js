@@ -15,6 +15,14 @@ exports.up = (pgm) => {
       onDelete: "cascade",
       onUpdate: "cascade",
     },
+    song_id: {
+      type: "VARCHAR(255)",
+      notNull: false,
+    },
+    user_id: {
+      type: "VARCHAR(255)",
+      notNull: false,
+    },
     action: {
       type: "VARCHAR(255)",
     },

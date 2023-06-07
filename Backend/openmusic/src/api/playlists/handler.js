@@ -14,16 +14,46 @@ class PlaylistHandler {
   }
 
   async postPlaylistHandler(request, h) {
+    console.log("hallo");
     const { name } = this._validator.validatePlaylistPayload(request.payload);
     const { id: credentialId } = request.auth.credentials;
-    const idPlaylist = await this._service.addPlaylist({ name, credentialId });
+    console.log(credentialId);
+    const playlistId = await this._service.addPlaylist(name, credentialId);
     const response = h.response({
       status: "success",
       data: {
-        PlaylistId: idPlaylist,
+        playlistId,
       },
     });
     response.code(201);
+    return response;
+  }
+
+  async getPlaylistHandler(request, h) {
+    const { id: credentialId } = request.auth.credentials;
+    console.log(credentialId);
+    const playlists = await this._service.getPlaylist(credentialId);
+    const response = h.response({
+      status: "success",
+      data: {
+        playlists,
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
+  async postPlaylistSongByIdHandler(request, h) {
+    const { id } = request.params;
+    const { name } = this._validator.validateplaylistSongPayload(request.payload);
+    const playlistSongId = await this._service.addPlaylistSong(id, name);
+    const response = h.response({
+      status: "success",
+      data: {
+        playlistSongId,
+      },
+    });
+    response.code(200);
     return response;
   }
 

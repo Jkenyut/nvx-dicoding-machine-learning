@@ -4,7 +4,7 @@
 const Joi = require("joi");
 
 const playlistSchema = Joi.object({
-  username: Joi.string().required().max(50).trim().messages({
+  name: Joi.string().required().max(50).trim().messages({
     "string.base": "name must be a string",
     "string.max": "name must be less than 50",
     "any.required": "name is required",
@@ -12,4 +12,13 @@ const playlistSchema = Joi.object({
   }),
 });
 
-module.exports = { playlistSchema };
+const playlistSongSchema = Joi.object({
+  songId: Joi.string().required().max(50).trim().messages({
+    "string.base": "name must be a string",
+    "string.max": "name must be less than 50",
+    "any.required": "name is required",
+    "string.empty": "name is required",
+  }),
+});
+
+module.exports = { playlistSchema, playlistSongSchema };
