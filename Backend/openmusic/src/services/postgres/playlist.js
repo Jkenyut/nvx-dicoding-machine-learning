@@ -26,7 +26,7 @@ class PlaylistService {
 
   async getPlaylist() {
     const query = {
-      text: "SELECT playlist.id FROM playlists ",
+      text: "SELECT playlist.id,users.username FROM playlists ",
       values: [],
     };
     const result = await this._pool.query(query);
