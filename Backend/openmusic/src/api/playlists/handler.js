@@ -50,7 +50,7 @@ class PlaylistHandler {
     const { songId } = this._validator.validateplaylistSongPayload(request.payload);
     await this._serviceSong.getSongById(songId);
     // await this._servicePlaylist.getPlaylistById(id, credentialId);
-    const playlistSongId = await this._servicePlaylist.addPlaylistSong(id, songId);
+    const playlistSongId = await this._servicePlaylist.addPlaylistSong(id, credentialId, songId);
     const response = h.response({
       status: "success",
 

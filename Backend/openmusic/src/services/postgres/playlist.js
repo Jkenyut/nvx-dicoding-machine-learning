@@ -4,10 +4,24 @@ const { Pool } = require("pg");
 const { nanoid } = require("nanoid");
 const InvariantError = require("../../exceptions/InvariantError");
 const NotFoundError = require("../../exceptions/NotFoundError");
+const AuthorizationError = require("../../exceptions/AuthorizationError");
 
 class PlaylistService {
   constructor() {
     this._pool = new Pool();
+  }
+
+  async verifyCollaborator(playlistId, userId) {
+    const query = {
+      text: "SELECT * FROM playlists inner join users on playlists.owner = users.id where playlists.id = $1 AND users.id = $2; ",
+      values: [playlistId, userId],
+    };
+    const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new AuthorizationError("Playlists tidak ditemukan");
+    }
+    return result.rows[0];
   }
 
   async addPlaylist(name, owner) {
@@ -36,24 +50,25 @@ class PlaylistService {
     return result.rows;
   }
 
-  async getPlaylistById(playlistId, userId) {
+  async getPlaylistId(id) {
     const query = {
-      text: "SELECT * FROM playlists inner join users on playlists.owner = users.id where playlists.id = $1 AND users.id = $2; ",
-      values: [playlistId, userId],
+      text: "SELECT * FROM playlists WHERE id = $1",
+      values: [id],
     };
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError("Playlists tidak ditemukan");
+      throw new NotFoundError("Song tidak ditemukan");
     }
     return result.rows[0];
   }
 
-  async addPlaylistSong(id, name) {
+  async addPlaylistSong(playlistId, userId, name) {
+    await this.verifyCollaborator(playlistId, userId);
     const playlistSongId = `playlist-song-${nanoid()}`;
     const query = {
-      text: "INSERT INTO playlist_songs VALUES($1,$2,$3) RETURNING id",
-      values: [playlistSongId, id, name],
+      text: "INSERT INTO playlist_song VALUES($1,$2,$3) RETURNING id",
+      values: [playlistSongId, playlistId, name],
     };
     const result = await this._pool.query(query);
     if (!result.rows[0].id) {
