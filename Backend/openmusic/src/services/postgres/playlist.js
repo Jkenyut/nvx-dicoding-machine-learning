@@ -80,10 +80,11 @@ class PlaylistService {
     return result.rows[0].id;
   }
 
-  async getPlaylistSongById(id) {
+  async getPlaylistSongById(playlistId, userId) {
+    await this.verifyCollaborator(playlistId, userId);
     const query = {
       text: "SELECT p.id,p.name,u.username FROM playlists as p inner join users u on p.owner = u.id where p.id = $1",
-      values: [id],
+      values: [playlistId],
     };
 
     const resultOwner = await this._pool.query(query);
@@ -92,7 +93,7 @@ class PlaylistService {
     }
     const query2 = {
       text: "select s.id , s.title, s.performer from songs s inner join playlist_songs ps on s.id = ps.song_id inner join playlists p on ps.playlist_id = p.id where p.id = $1",
-      values: [id],
+      values: [playlistId],
     };
 
     const resulSong = await this._pool.query(query2);

@@ -21,4 +21,5 @@ function formatPlaylistSong(resultPlaylist, resultPlaylistSong) {
   };
   return OK;
 }
+
 module.exports = { formatAlbumWithSongs, formatPlaylistSong };
