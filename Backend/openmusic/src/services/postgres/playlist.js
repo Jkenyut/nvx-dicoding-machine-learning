@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const { Pool } = require("pg");
 const { nanoid } = require("nanoid");
+const { formatPlaylistSong } = require("../../utils/index");
 const InvariantError = require("../../exceptions/InvariantError");
 const NotFoundError = require("../../exceptions/NotFoundError");
 const AuthorizationError = require("../../exceptions/AuthorizationError");
@@ -77,6 +78,28 @@ class PlaylistService {
     }
 
     return result.rows[0].id;
+  }
+
+  async getPlaylistSongById(id) {
+    const query = {
+      text: "SELECT p.id,p.name,u.username FROM playlists as p inner join users u on p.owner = u.id where p.id = $1",
+      values: [id],
+    };
+
+    const resultOwner = await this._pool.query(query);
+    if (!resultOwner.rows[0].id) {
+      throw new InvariantError("Playlist-song gagal ditemukan");
+    }
+    const query2 = {
+      text: "select s.id , s.title, s.performer from songs s inner join playlist_songs ps on s.id = ps.song_id inner join playlists p on ps.playlist_id = p.id where p.id = $1",
+      values: [id],
+    };
+
+    const resulSong = await this._pool.query(query2);
+    if (!resulSong.rows[0].id) {
+      throw new InvariantError("Playlist-song gagal ditemukan");
+    }
+    return formatPlaylistSong(resultOwner.rows[0], resulSong.rows);
   }
 }
 

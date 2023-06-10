@@ -8,4 +8,17 @@ function formatAlbumWithSongs(resultAlbum, resultSong) {
   }))[0];
 }
 
-module.exports = { formatAlbumWithSongs };
+function formatPlaylistSong(resultPlaylist, resultPlaylistSong) {
+  const OK = {
+    id: resultPlaylist.id,
+    name: resultPlaylist.name,
+    username: resultPlaylist.username,
+    songs: resultPlaylistSong.map(({ id, title, performer }) => ({
+      id,
+      title,
+      performer,
+    })),
+  };
+  return OK;
+}
+module.exports = { formatAlbumWithSongs, formatPlaylistSong };

@@ -60,6 +60,18 @@ class PlaylistHandler {
     return response;
   }
 
+  async getPlaylistSongByIdHandler(request, h) {
+    const { id } = request.params;
+    const PlaylistId = await this._servicePlaylist.getPlaylistSongById(id);
+    const response = h.response({
+      status: "success",
+
+      data: { playlist: PlaylistId },
+    });
+    response.code(200);
+    return response;
+  }
+
   async getPlaylistByIdHandler(request, h) {
     const { id } = request.params;
     const PlaylistId = await this._servicePlaylist.getPlaylistById(id);

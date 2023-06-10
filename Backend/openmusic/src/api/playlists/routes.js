@@ -27,8 +27,8 @@ const routesPlaylist = (handler) => [
   },
   {
     method: "GET",
-    path: "/playlists/{id}",
-    handler: handler.getPlaylistByIdHandler,
+    path: "/playlists/{id}/songs",
+    handler: handler.getPlaylistSongByIdHandler,
     options: {
       auth: "notesapp_jwt",
     }, // getbyid
