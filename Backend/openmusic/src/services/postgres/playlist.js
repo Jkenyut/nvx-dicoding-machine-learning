@@ -67,9 +67,10 @@ class PlaylistService {
     await this.verifyCollaborator(playlistId, userId);
     const playlistSongId = `playlist-song-${nanoid()}`;
     const query = {
-      text: "INSERT INTO playlist_song VALUES($1,$2,$3) RETURNING id",
+      text: "INSERT INTO playlist_songs VALUES($1,$2,$3) RETURNING id",
       values: [playlistSongId, playlistId, name],
     };
+
     const result = await this._pool.query(query);
     if (!result.rows[0].id) {
       throw new InvariantError("Playlist-song gagal ditambahkan");
