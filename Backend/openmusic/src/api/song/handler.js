@@ -80,7 +80,7 @@ class SongHandler {
 
   async deleteSongByIdHandler(request, h) {
     const { id } = request.params;
-    await this._service.deleteAlbumById(id);
+    await this._service.deleteSongById(id);
     const response = h.response({
       status: "success",
       message: "Song telah diubah",

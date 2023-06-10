@@ -43,8 +43,8 @@ const routesPlaylist = (handler) => [
   },
   {
     method: "DELETE",
-    path: "/playlists/{id}",
-    handler: handler.deletePlaylistByIdHandler,
+    path: "/playlists/{id}/songs",
+    handler: handler.deletePlaylistSongByIdHandler,
     options: {
       auth: "notesapp_jwt",
     }, // delete by id

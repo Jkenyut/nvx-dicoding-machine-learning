@@ -98,6 +98,22 @@ class PlaylistHandler {
     return response;
   }
 
+  async deletePlaylistSongByIdHandler(request, h) {
+    const { id } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+    const { songId } = this._validator.validateplaylistSongPayload(request.payload);
+    await this._serviceSong.getSongById(songId);
+    await this._servicePlaylist.getPlaylistId(id);
+    await this._servicePlaylist.verifyCollaborator(id, credentialId);
+    await this._serviceSong.deleteSongById(songId);
+    const response = h.response({
+      status: "success",
+      message: "Song Playlist telah didelete",
+    });
+    response.code(200);
+    return response;
+  }
+
   async deletePlaylistByIdHandler(request, h) {
     const { id } = request.params;
     await this._servicePlaylist.deletePlaylistById(id);
