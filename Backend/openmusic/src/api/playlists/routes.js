@@ -34,17 +34,17 @@ const routesPlaylist = (handler) => [
     }, // getbyid
   },
   {
-    method: "PUT",
-    path: "/playlists/{id}",
-    handler: handler.putPlaylistByIdHandler,
-    options: {
-      auth: "notesapp_jwt",
-    }, // edit by id
-  },
-  {
     method: "DELETE",
     path: "/playlists/{id}/songs",
     handler: handler.deletePlaylistSongByIdHandler,
+    options: {
+      auth: "notesapp_jwt",
+    }, // delete by id
+  },
+  {
+    method: "DELETE",
+    path: "/playlists/{id}",
+    handler: handler.deletePlaylistByIdHandler,
     options: {
       auth: "notesapp_jwt",
     }, // delete by id
