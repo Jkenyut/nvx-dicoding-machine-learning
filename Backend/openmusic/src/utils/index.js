@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-//format response
+// format response
 
 function formatAlbumWithSongs(resultAlbum, resultSong) {
   return resultAlbum.rows.map(({ id, name, year }) => ({
