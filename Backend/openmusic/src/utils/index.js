@@ -10,7 +10,7 @@ function formatAlbumWithSongs(resultAlbum, resultSong) {
   }))[0];
 }
 
-//format
+// format
 function formatPlaylistSong(resultPlaylist, resultPlaylistSong) {
   const OK = {
     id: resultPlaylist.id,
