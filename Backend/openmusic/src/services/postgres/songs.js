@@ -53,6 +53,7 @@ class SongsService {
     return result.rows[0];
   }
 
+  // service edit song by id
   async editSongById(id, { title, year, genre, performer, duration, albumId }) {
     const query = {
       text: "UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, albumid = $6 WHERE id = $7 RETURNING id",
