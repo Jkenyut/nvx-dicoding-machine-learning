@@ -8,3 +8,25 @@ Backend/bookshelf-api/* linguist-documentation=false
 Backend/bookshelf-api/* linguist-vendored
 Backend/notes-app-back-end/* linguist-documentation=false
 Backend/notes-app-back-end/* linguist-vendored
+
+*.py linguist-language=python
+*.js linguist-language=javascript
+*.java linguist-language=java
+*.html linguist-language=html
+*.css linguist-language=css
+*.rb linguist-language=ruby
+*.php linguist-language=php
+*.go linguist-language=go
+*.cpp linguist-language=cpp
+*.swift linguist-language=swift
+*.sql linguist-language=sql
+*.rust linguist-language=rust
+*.lua linguist-language=lua
+*.ts linguist-language=typescript
+*.dart linguist-language=dart
+*.scala linguist-language=scala
+*.r linguist-language=r
+*.perl linguist-language=perl
+*.sh linguist-language=shell
+*.kotlin linguist-language=kotlin
+*.elm linguist-language=elm
