@@ -1,14 +1,10 @@
 const Hapi = require("@hapi/hapi");
 const Qs = require("qs");
 const routes = require("./routes/bookshelf");
-// const bodyParser = require("body-parser");
-
-// const cors = require("cors");
-// const { nanoid } = require("nanoid");
 
 const init = async () => {
   const server = Hapi.server({
-    port: 5000,
+    port: 9000,
     host: "localhost",
     routes: {
       cors: {

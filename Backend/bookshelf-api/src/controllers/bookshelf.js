@@ -1,12 +1,10 @@
-const { nanoid } = require("nanoid");
-const data = require("../model/model");
 // eslint-disable-next-line no-unused-vars
-const addBookHandler = async (request, h) => {
-  const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
+const {nanoid} = require("nanoid"), data = require("../model/model"), addBookHandler = async (request, h) => {
+  const {name, year, author, summary, publisher, pageCount, readPage, reading} = request.payload;
   const id = nanoid(16);
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
-  const finished = pageCount === readPage ? true : false;
+  const finished = pageCount === readPage;
   const newBooks = {
     id,
     name,
@@ -61,21 +59,14 @@ const addBookHandler = async (request, h) => {
   });
   response.code(500);
   return response;
-};
-
-const getAllBookHandler = async (request, h) => {
-  const { name, reading, finished } = request.query;
-
+}, getAllBookHandler = async (request, h) => {
+  const {name, reading, finished} = request.query;
   let filteredBooks = data;
+
   if (name) {
-    filteredBooks = filteredBooks.filter((book) => {
-      return (
-        book.name.toLowerCase().includes(name.toLowerCase()) ||
-        book.publisher.toLowerCase().includes(name.toLowerCase())
-      );
-    });
-    console.log(filteredBooks);
+    filteredBooks = filteredBooks.filter((book) =>  book.name.toLowerCase().includes(name.toLowerCase()))
   }
+
   if (reading) {
     filteredBooks = filteredBooks.filter((book) => book.reading === !!Number(reading));
   }
@@ -109,10 +100,8 @@ const getAllBookHandler = async (request, h) => {
     response.code(200);
     return response;
   }
-};
-
-const getBookbyIdHandler = async (request, h) => {
-  const { bookId } = request.params;
+}, getBookbyIdHandler = async (request, h) => {
+  const {bookId} = request.params;
   const book = data.filter((book) => book.id === bookId)[0];
   if (book) {
     const response = h.response({
@@ -131,12 +120,10 @@ const getBookbyIdHandler = async (request, h) => {
   });
   response.code(404);
   return response;
-};
+}, editBookByIdHandler = async (request, h) => {
+  const {bookId} = request.params;
 
-const editBookByIdHandler = async (request, h) => {
-  const { bookId } = request.params;
-
-  const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
+  const {name, year, author, summary, publisher, pageCount, readPage, reading} = request.payload;
   const findIndex = data.findIndex((book) => book.id === bookId);
   const editBook = {
     ...data[findIndex],
@@ -171,7 +158,7 @@ const editBookByIdHandler = async (request, h) => {
   if (findIndex !== -1) {
     data[findIndex] = editBook;
 
-    const response = h.response({ status: "success", message: "Buku berhasil diperbarui" });
+    const response = h.response({status: "success", message: "Buku berhasil diperbarui"});
     response.code(200);
     return response;
   }
@@ -182,10 +169,8 @@ const editBookByIdHandler = async (request, h) => {
   });
   response.code(404);
   return response;
-};
-
-const deleteBookByIdHandler = async (request, h) => {
-  const { bookId } = request.params;
+}, deleteBookByIdHandler = async (request, h) => {
+  const {bookId} = request.params;
   const findIndex = data.findIndex((file) => file.id === bookId);
   if (findIndex !== -1) {
     data.splice(findIndex, 1);
@@ -204,6 +189,8 @@ const deleteBookByIdHandler = async (request, h) => {
   response.code(404);
   return response;
 };
+
+
 module.exports = {
   addBookHandler,
   getAllBookHandler,
