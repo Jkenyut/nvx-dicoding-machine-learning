@@ -12,7 +12,7 @@ const routes = [
     {method: "GET", path: "/books/{bookId}", handler: getBookbyIdHandler},
     {method: "PUT", path: "/books/{bookId}", handler: editBookByIdHandler},
     {method: "DELETE", path: "/books/{bookId}", handler: deleteBookByIdHandler},
-    {method: "GET",path:"/",handler:helloHandler}
+    {method: "GET", path: "/", handler: helloHandler}
 ];
 
 module.exports = routes;
