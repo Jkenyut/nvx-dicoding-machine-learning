@@ -1,0 +1,186 @@
+Machine Learning Project Report - Satria Nur Saputro
+
+Project Overview
+The domain chosen for this project is book interest. The low reading interest among the public, along with a lack of guidance from parents, community, or irrelevant book recommendations, is a major factor contributing to the lack of reader enthusiasm. This issue raises the question of why, despite the availability of numerous books across various genres, it remains difficult for people to develop an interest in reading and finding books that match their preferences. This situation has prompted a new revolution in book sales, both offline and online. Offline, limitations in book availability and distant store locations reduce efficiency, especially if the desired book is not in stock. Online stores, however, offer broader reach, a more comprehensive book collection, and leverage the global internet. With advancements in technology and the assistance of AI in recommendation systems, content can be tailored to individual users, which is expected to boost reading interest.
+
+Business Understanding
+As a business owner, increasing book sales transactions is a priority. Therefore, they employ Data Scientists and machine learning experts to collect book data and user ratings from the company’s database to gauge enthusiasm for books. Recommendation systems not only generate profit for the business but also benefit other book companies and increase the likelihood of our book business being recommended to readers who have not yet visited our store.
+
+Problem Statements
+- From the available book and rating dataset, how can the company provide recommendations for books that users might like but have not yet read?
+
+Goals
+- Implement user recommendations based on past preferences using content-based filtering techniques.
+- Generate book recommendations that align with user preferences and have not been previously explored using collaborative filtering techniques.
+
+Solution Statements
+The solution to address these issues involves three recommendation algorithm approaches: Cosine Similarity, Singular Value Decomposition (SVD), and Alternating Least Squares (ALS).
+
+Algorithm Explanation:
+- Cosine Similarity: Cosine Similarity is a measure of similarity, commonly used to determine the degree of similarity between texts or sentences. It can be applied to create steganography or linguistic steganalysis.
+- Singular Value Decomposition (SVD): A widely used technique to decompose a matrix into several component matrices, revealing useful and interesting properties of the original matrix. Using SVD, we can determine the matrix rank, measure the sensitivity of a linear system to numerical errors, or obtain an optimal low-rank approximation of the matrix.
+- Alternating Least Squares (ALS): A matrix factorization algorithm that operates in parallel. ALS is implemented in Apache Spark ML and is designed for large-scale collaborative filtering problems. ALS effectively addresses scalability and data sparsity in ratings and is simple and scalable for very large datasets.
+
+Data Understanding
+The dataset used in this project is "goodbooks," created by Philipp Spachtholz for book illustrations. This dataset contains ratings for ten thousand popular books. The ratings were sourced from the internet, with most books having around 100 reviews, though some have fewer. Ratings range from one to five. The dataset also includes books marked as "to read" by users, book metadata (author, year, etc.), and tags. The dataset consists of four CSV files. During this phase, exploratory data analysis (EDA) was conducted. Data source: [5].
+- book_tags.csv: Contains 999,913 rows and 3 columns
+- book.csv: Contains 10,000 rows and 23 columns
+- rating.csv: Contains 981,756 rows and 3 columns
+- tags.csv: Contains 34,253 rows and 2 columns
+- to_read.csv: Contains 912,706 rows and 2 columns
+
+Variables in book_tags.csv:
+- goodreads_book_id: ID of the reviewed book
+- tag_id: Book tag ID
+- count: Number of books
+
+Variables in tags.csv:
+- tag_id: Book tag ID
+- tag_name: Book tag name
+
+Variables in to_read.csv:
+- user_id: User ID
+- book_id: Book ID
+
+Variables in book.csv:
+- id: Index ID
+- book_id: Book ID
+- best_book_id: Best book ID
+- work_id: Book work ID
+- books_count: Number of books
+- isbn: Book serial number
+- isbn13: 13-digit book serial number
+- authors: Book author
+- original_publication_year: Book publication year
+- original_title: Original book title
+- title: Book title
+- language_code: Book language code
+- average_rating: Average user rating
+- ratings_count: Number of user ratings
+- work_ratings_count: Work rating count from users
+- work_text_reviews_count: Number of user text reviews
+- ratings_1: Number of rating 1 from users
+- ratings_2: Number of rating 2 from users
+- ratings_3: Number of rating 3 from users
+- ratings_4: Number of rating 4 from users
+- ratings_5: Number of rating 5 from users
+- image_url: Book image link
+- small_image_url: Small book image link
+
+Variables in rating.csv:
+- book_id: Book ID
+- user_id: User ID
+- rating: User rating for the book (1-5)
+
+Based on these five files, this project uses only two CSV files: rating.csv and book.csv, as the recommendation system relies on ratings as its reference.
+
+Data Preparation
+Data preparation involves analyzing raw datasets through collection and cleaning before modeling:
+- Performing visualization
+- Concatenating datasets
+- Merging book and rating datasets into one
+- Removing missing values and duplicates
+- Sorting the dataframe
+- Removing unnecessary symbols/characters
+
+Modeling and Results
+Workflow for Content-Based Filtering and Collaborative Filtering Models
+
+This project uses one algorithm for content-based filtering:
+1. Cosine Similarity
+- Steps for the recommendation system using Cosine Similarity:
+  - Apply TF-IDF to the prepared dataset
+  - Input TF-IDF values into the Cosine Similarity algorithm
+  - Predict the top 5 book recommendations
+  - Evaluate results using precision metrics
+  - After prediction on the content-based filtering model using test data, the precision achieved was 80%
+
+This project uses two algorithms for collaborative filtering:
+1. Singular Value Decomposition (SVD)
+2. Alternating Least Squares (ALS)
+
+- Steps for the collaborative filtering recommendation system:
+  - Install the Surprise library
+  - Split data into training and testing sets (80:20)
+  - Train SVD and ALS models
+  - Evaluate model results using MAE and MSE
+  - After prediction using test data, the evaluation metrics for each algorithm are:
+
+    -> Singular Value Decomposition (SVD):
+    MSE: 0.3276
+    MAE: 0.4236
+
+    -> Alternating Least Squares (ALS):
+    MSE: 0.6287
+    MAE: 0.6215
+
+Based on these two algorithms, Singular Value Decomposition (SVD) is the best model.
+
+Top-N Recommendation Results
+Top 5 book recommendations using Cosine Similarity based on author James Frey:
+1. Little Women
+2. A Little Princess
+3. Little Town on the Prairie
+4. The First Four Years
+5. Little House in the Big Woods
+
+Top 10 book recommendations using SVD based on user 23:
+1. City of Bones (The Mortal Instruments, #1)
+2. Monster Hunter International (Monster Hunter International, #1)
+3. Disgrace
+4. Half of a Yellow Sun
+5. Animal, Vegetable, Miracle: A Year of Food Life
+6. To All the Boys I've Loved Before (To All the Boys I've Loved Before, #1)
+7. A Christmas Carol
+8. The Fires of Heaven (Wheel of Time, #5)
+9. Reached (Matched, #3)
+10. The 7 Habits of Highly Effective People: Powerful Lessons in Personal Change
+
+Top 10 book recommendations using ALS based on user 23:
+1. What If?: Serious Scientific Answers to Absurd Hypothetical Questions
+2. The Red Pyramid (Kane Chronicles, #1)
+3. Artemis Fowl (Artemis Fowl, #1)
+4. The Crucible
+5. Girl with a Pearl Earring
+6. Black Rose (In the Garden, #2)
+7. Angels & Demons (Robert Langdon, #1)
+8. All Together Dead (Sookie Stackhouse, #7)
+9. Predictably Irrational: The Hidden Forces That Shape Our Decisions
+10. Library of Souls (Miss Peregrine's Peculiar Children, #3)
+
+Evaluation
+Evaluation is conducted using three algorithms: Precision for Content-Based Filtering, Singular Value Decomposition (SVD), and Alternating Least Squares (ALS).
+
+First Evaluation: Content-Based Filtering (Precision)
+- Precision = # of recommended items that are relevant / # of items recommended
+  Precision formula: P = P/R
+  Thus: P = 4/5
+  Precision: 80%
+
+First Evaluation: Collaborative Filtering (Singular Value Decomposition - SVD)
+Metrics used for model evaluation:
+- MSE: Represents the average squared error between actual and predicted values. Actual values are ratings, while predicted values are estimates of the actual values.
+  MSE = Σ (actual_value_i - predicted_value_i)² / n
+  MSE = 0.3276
+- MAE: Represents the average absolute error between predicted and actual values. Actual values are ratings, while predicted values are estimates of the actual values.
+  MAE = Σ |actual_value_i - predicted_value_i| / n
+  MAE = 0.4236
+
+Second Evaluation: Collaborative Filtering (Alternating Least Squares - ALS)
+Metrics used for model evaluation:
+- MSE: Represents the average squared error between actual and predicted values. Actual values are ratings, while predicted values are estimates of the actual values.
+  MSE = Σ (actual_value_i - predicted_value_i)² / n
+  MSE = 0.6287
+- MAE: Represents the average absolute error between predicted and actual values. Actual values are ratings, while predicted values are estimates of the actual values.
+  MAE = Σ |actual_value_i - predicted_value_i| / n
+  MAE = 0.6215
+
+Conclusion
+The Cosine Similarity algorithm demonstrates a significantly higher precision of 80%. For the SVD and ALS algorithms, evaluated using MAE and MSE, SVD performs better in providing recommendation predictions with an error rate of around 0.4. This project successfully achieved the established goals using Content-Based Filtering and Collaborative Filtering models.
+
+References
+[1] T. Badriyah, I. Restuningtyas, and F. Setyorini, “Sistem Rekomendasi Collaborative Filtering Berbasis User Algoritma Adjusted Cosine Similarity,” Pros. Semin. Nas. Sisfotek, vol. 10, no. 1, pp. 38–45, 2021.
+[2] A. S. N. S. Ningrum, “Content Based Dan Collaborative Filtering Pada Rekomendasi Tujuan Pariwisata Di Daerah Yogyakarta,” Telematika, vol. 16, no. 1, p. 44, 2019, doi: 10.31315/telematika.v16i1.3023.
+[3] MIT, “Singular Value Decomposition (SVD) tutorial,” MIT. https://www.ptonline.com/articles/how-to-get-better-mfi-results (accessed Nov. 30, 2022).
+[4] Apache, “Apache Flink 1.2 Documentation: Alternating Least Squares.” https://nightlies.apache.org/flink/flink-docs-release-1.2/dev/libs/ml/als.html (accessed Nov. 30, 2022).
+[5] P. Spachtholz, “goodreads - content based book recommendation | Kaggle,” Kaggle, 2018. https://www.kaggle.com/code/bshirude2/goodreads-content-based-book-recommendation/data (accessed Nov. 30, 2022).
